@@ -1,0 +1,126 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Activity {
+  id: ID!
+  name: String!
+  description: String!
+  startDate: DateTime!
+  accountId: String!
+  account: Account!
+  participants: [Account!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Account {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  initials: String!
+  activities: [Activity!]!
+}
+
+type Location {
+  id: ID!
+  name: String!
+  description: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+type Route {
+  id: ID!
+  name: String!
+  description: String!
+  duration: Int!
+  distanceInKm: Float!
+  activityId: String!
+  startLocationId: String!
+  endLocationId: String!
+  activity: Activity!
+  startLocation: Location!
+  endLocation: Location!
+}
+
+type Query {
+  getRoutes(name: String!, description: String!): [Route!]!
+  getLocations(name: String!, description: String!): [Location!]!
+  getActivity(id: String!): Activity
+  getActivities(name: String!, description: String!, accountId: String!, published: Boolean! = true): [Activity!]!
+  getAccount(email: String!, password: String!): Account
+}
+
+type Mutation {
+  createRoute(input: CreateRouteDto!): Route!
+  updateRoute(input: UpdateRouteDto!): Route!
+  deleteRoute(id: String!): Route!
+  createLocation(input: CreateLocationDto!): Location!
+  updateLocation(input: UpdateLocationDto!): Location!
+  deleteLocation(id: String!): Location!
+  createActivity(input: CreateActivityDto!): Activity!
+  updateActivity(input: UpdateActivityDto!): Activity!
+  deleteActivity(id: String!): Activity!
+  creteAccount(input: CreateAccountDto!): Account!
+}
+
+input CreateRouteDto {
+  name: String!
+  description: String!
+  duration: Int!
+  distanceInKm: Float!
+  startLocationId: String!
+  endLocationId: String!
+  activityId: String!
+}
+
+input UpdateRouteDto {
+  name: String!
+  description: String!
+  duration: Int!
+  distanceInKm: Float!
+  startLocationId: String!
+  endLocationId: String!
+  activityId: String!
+  id: ID!
+}
+
+input CreateLocationDto {
+  name: String!
+  description: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+input UpdateLocationDto {
+  name: String!
+  description: String!
+  latitude: Float!
+  longitude: Float!
+  id: ID!
+}
+
+input CreateActivityDto {
+  name: String!
+  description: String!
+  startDate: String!
+}
+
+input UpdateActivityDto {
+  name: String!
+  description: String!
+  startDate: String!
+  id: ID!
+}
+
+input CreateAccountDto {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}

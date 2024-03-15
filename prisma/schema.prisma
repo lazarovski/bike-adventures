@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id           String        @id @default(uuid())
+  firstName    String?       @db.VarChar(50)
+  lastName     String?       @db.VarChar(50)
+  email        String        @unique
+  password     String
+  isActive     Boolean       @default(false)
+  isDisabled   Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  activities   Activity[]    @relation("createdBy")
+  participants Participant[] @relation("participants")
+
+  @@index([email])
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(200)
+  description String   @db.VarChar(1024)
+  startDate   DateTime
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  account   Account @relation("createdBy", fields: [accountId], references: [id])
+  accountId String  @unique
+
+  participants Participant[] @relation("participants")
+
+  route Route? @relation("activityRoute")
+
+  @@index([name, description])
+}
+
+model Participant {
+  account   Account @relation("participants", fields: [accountId], references: [id])
+  accountId String  @unique
+
+  activity   Activity @relation("participants", fields: [activityId], references: [id])
+  activityId String   @unique
+
+  @@id([accountId, activityId])
+}
+
+model Route {
+  id           String   @id @default(uuid())
+  name         String   @db.VarChar(200)
+  description  String   @db.VarChar(1024)
+  published    Boolean  @default(false)
+  duration     Int
+  distanceInKm Decimal  @db.Decimal(3, 1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  startLocation   Location @relation("startLocation", fields: [startLocationId], references: [id])
+  startLocationId String   @unique
+
+  endLocation   Location @relation("endLocation", fields: [endLocationId], references: [id])
+  endLocationId String   @unique
+
+  activity   Activity? @relation("activityRoute", fields: [activityId], references: [id])
+  activityId String?    @unique
+
+  @@index([name])
+}
+
+model Location {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(200)
+  description String   @db.VarChar(512)
+  latitude    Decimal? @db.Decimal(9, 9)
+  longitude   Decimal? @db.Decimal(9, 6)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  routesFrom Route[] @relation("startLocation")
+  routesTo   Route[] @relation("endLocation")
+
+  @@index([name])
+}
