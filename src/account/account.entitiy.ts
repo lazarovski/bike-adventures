@@ -16,6 +16,9 @@ export class Account {
   @Field(() => String)
   email: Entity['email'];
 
+  @Field(() => [String])
+  role: Entity['role'];
+
   @Field(() => String)
   initials?: string;
 

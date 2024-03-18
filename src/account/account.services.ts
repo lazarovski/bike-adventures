@@ -12,7 +12,7 @@ export class AccountService {
     const entries = Object.entries(user).filter(
       ([key]: [Key, string]) => !keys.includes(key),
     );
-    return Object.fromEntries(entries);
+    return Object.fromEntries(entries) as Omit<Account, Key>;
   }
 
   async getAccount(args: GetAccountArgs): Promise<Account | null> {

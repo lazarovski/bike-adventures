@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model Account {
   id           String        @id @default(uuid())
   firstName    String?       @db.VarChar(50)
@@ -25,6 +30,7 @@ model Account {
   updatedAt    DateTime      @updatedAt
   activities   Activity[]    @relation("createdBy")
   participants Participant[] @relation("participants")
+  role         Role[]        @default([USER])
 
   @@index([email])
 }
@@ -75,7 +81,7 @@ model Route {
   endLocationId String   @unique
 
   activity   Activity? @relation("activityRoute", fields: [activityId], references: [id])
-  activityId String?    @unique
+  activityId String?   @unique
 
   @@index([name])
 }

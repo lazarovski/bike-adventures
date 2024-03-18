@@ -27,6 +27,6 @@ export class AuthService {
 
   async register(user: RegisterDto): Promise<Account> {
     const account = await this.accountService.creteAccount(user);
-    return account;
+    return this.accountService.exclude(account, ['password']);
   }
 }

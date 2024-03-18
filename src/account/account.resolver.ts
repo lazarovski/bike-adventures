@@ -13,7 +13,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { AccountService } from './account.services';
 import { Activity } from '@src/activity/activity.entitiy';
 import { ActivityService } from '@src/activity/activity.services';
-import { JwtAuthGuard } from '@src/auth/guard/jwt.guard';
+import { JwtAuthGuard, AdminGuard } from '@src/auth/guard/';
 
 @Resolver(() => Account)
 export class AccountResolver {
@@ -22,13 +22,13 @@ export class AccountResolver {
     private activityService: ActivityService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Query(() => Account, { name: 'getAccount', nullable: true })
   async getAccount(@Args() data: GetAccountArgs): Promise<Account | null> {
     return await this.accountService.getAccount(data);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Mutation(() => Account, { name: 'creteAccount' })
   async creteAccount(@Args('input') data: CreateAccountDto): Promise<Account> {
     return await this.accountService.creteAccount(data);

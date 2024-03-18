@@ -22,6 +22,7 @@ type Account {
   firstName: String!
   lastName: String!
   email: String!
+  role: [String!]!
   initials: String!
   activities: [Activity!]!
 }
@@ -53,7 +54,7 @@ type Query {
   getLocations(name: String!, description: String!): [Location!]!
   getActivity(id: String!): Activity
   getActivities(name: String!, description: String!, accountId: String!, published: Boolean! = true): [Activity!]!
-  getAccount(email: String!, password: String!): Account
+  getAccount(email: String!, isActive: Boolean! = true, isDisabled: Boolean! = false): Account
 }
 
 type Mutation {

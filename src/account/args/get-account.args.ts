@@ -1,5 +1,5 @@
 import { ArgsType, Field } from '@nestjs/graphql';
-import { IsString, IsEmail, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail } from 'class-validator';
 
 @ArgsType()
 export class GetAccountArgs {
@@ -7,8 +7,11 @@ export class GetAccountArgs {
   @IsEmail()
   email: string;
 
-  @Field(() => String)
-  @IsString()
-  @MinLength(8)
-  password?: string;
+  @Field(() => Boolean, { defaultValue: true })
+  @IsBoolean()
+  isActive?: boolean;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @IsBoolean()
+  isDisabled?: boolean;
 }
