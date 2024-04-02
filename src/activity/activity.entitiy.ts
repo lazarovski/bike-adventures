@@ -1,12 +1,10 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Activity as Entity } from '@prisma/client';
 import { Account } from '@src/account/account.entitiy';
+import { BaseEntity } from '@src/base/base.entity';
 
 @ObjectType()
-export class Activity {
-  @Field(() => ID)
-  id: Entity['id'];
-
+export class Activity extends BaseEntity {
   @Field(() => String)
   name: Entity['name'];
 

@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -9,6 +7,7 @@ import { AccountModule } from '@src/account/account.module';
 import { ActivityModule } from '@src/activity/activity.module';
 import { LocationModule } from '@src/location/location.module';
 import { RouteModule } from '@src/route/route.module';
+import { HealthModule } from '@src/health/health.module';
 
 @Module({
   imports: [
@@ -17,13 +16,18 @@ import { RouteModule } from '@src/route/route.module';
     ActivityModule,
     LocationModule,
     RouteModule,
+    HealthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       include: [AccountModule, ActivityModule, LocationModule, RouteModule],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      formatError: (error) => {
+        return {
+          message: error.message,
+          code: error.extensions?.code,
+        };
+      },
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

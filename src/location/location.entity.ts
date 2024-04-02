@@ -1,11 +1,9 @@
-import { Field, ObjectType, ID, Float } from '@nestjs/graphql';
+import { Field, ObjectType, Float } from '@nestjs/graphql';
 import { Location as Entity } from '@prisma/client';
+import { BaseEntity } from '@src/base/base.entity';
 
 @ObjectType()
-export class Location {
-  @Field(() => ID)
-  id: Entity['id'];
-
+export class Location extends BaseEntity {
   @Field(() => String)
   name: Entity['name'];
 

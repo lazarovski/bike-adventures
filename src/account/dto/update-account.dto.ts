@@ -2,12 +2,12 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 
 @InputType()
-export class CreateAccountDto {
+export class UpdateAccountDto {
   @Field(() => String)
   @IsString()
-  firstName?: string;
+  firstName: string;
 
   @Field(() => String)
   @IsString()
-  lastName?: string;
+  lastName: string;
 }

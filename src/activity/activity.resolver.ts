@@ -6,14 +6,14 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, InternalServerErrorException } from '@nestjs/common';
 import { Activity } from './activity.entitiy';
-import { ActivityService } from './activity.services';
+import { ActivityService } from './activity.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { GetActivitiesArgs } from './args/get-activities.args';
 import { Account } from '@src/account/account.entitiy';
-import { AccountService } from '@src/account/account.services';
+import { AccountService } from '@src/account/account.service';
 import { JwtAuthGuard } from '@src/auth/guard/jwt.guard';
 
 @Resolver(() => Activity)
@@ -26,7 +26,11 @@ export class ActivityResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => Activity, { name: 'getActivity', nullable: true })
   async getActivity(@Args('id', { type: () => String }) id: string) {
-    return await this.activityService.getActivity(id);
+    try {
+      return await this.activityService.getActivity(id);
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   @UseGuards(JwtAuthGuard)

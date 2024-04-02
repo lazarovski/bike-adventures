@@ -3,12 +3,12 @@ import { IsString, IsEmail, MinLength, MaxLength } from 'class-validator';
 
 @InputType()
 export class CreateAccountDto {
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsString()
   @MaxLength(50)
   firstName?: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsString()
   @MaxLength(50)
   lastName?: string;

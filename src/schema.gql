@@ -41,6 +41,7 @@ type Route {
   description: String!
   duration: Int!
   distanceInKm: Float!
+  images: [String!]!
   activityId: String!
   startLocationId: String!
   endLocationId: String!
@@ -120,8 +121,8 @@ input UpdateActivityDto {
 }
 
 input CreateAccountDto {
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   email: String!
   password: String!
 }

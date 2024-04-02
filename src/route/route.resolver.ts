@@ -13,7 +13,7 @@ import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
 import { GetRoutesArgs } from './args/get-routes.args';
 import { Activity } from '@src/activity/activity.entitiy';
-import { ActivityService } from '@src/activity/activity.services';
+import { ActivityService } from '@src/activity/activity.service';
 import { Location } from '@src/location/location.entity';
 import { LocationService } from '@src/location/location.service';
 import { JwtAuthGuard } from '@src/auth/guard/jwt.guard';

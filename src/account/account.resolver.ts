@@ -6,15 +6,17 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
+import { ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
 import { Account } from './account.entitiy';
 import { GetAccountArgs } from './args/get-account.args';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { AccountService } from './account.services';
+import { AccountService } from './account.service';
 import { Activity } from '@src/activity/activity.entitiy';
-import { ActivityService } from '@src/activity/activity.services';
-import { JwtAuthGuard, AdminGuard } from '@src/auth/guard/';
+import { ActivityService } from '@src/activity/activity.service';
+import { AdminGuard } from '@src/auth/guard/';
 
+@ApiTags('Account')
 @Resolver(() => Account)
 export class AccountResolver {
   constructor(
@@ -22,13 +24,13 @@ export class AccountResolver {
     private activityService: ActivityService,
   ) {}
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
+  @UseGuards(AdminGuard)
   @Query(() => Account, { name: 'getAccount', nullable: true })
   async getAccount(@Args() data: GetAccountArgs): Promise<Account | null> {
     return await this.accountService.getAccount(data);
   }
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
+  @UseGuards(AdminGuard)
   @Mutation(() => Account, { name: 'creteAccount' })
   async creteAccount(@Args('input') data: CreateAccountDto): Promise<Account> {
     return await this.accountService.creteAccount(data);

@@ -1,6 +1,6 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { Account } from '@src/account/account.entitiy';
-import { AccountService } from '@src/account/account.services';
+import { AccountService } from '@src/account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -13,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(user: Account): Promise<LoginDto> {
+  login(user: Account): LoginDto {
     return {
       token: this.jwtService.sign({
         userId: user.id,

@@ -1,11 +1,9 @@
-import { Field, ObjectType, ID, Float, Int } from '@nestjs/graphql';
+import { Field, ObjectType, Float, Int } from '@nestjs/graphql';
 import { Route as Entity } from '@prisma/client';
+import { BaseEntity } from '@src/base/base.entity';
 
 @ObjectType()
-export class Route {
-  @Field(() => ID)
-  id: Entity['id'];
-
+export class Route extends BaseEntity {
   @Field(() => String)
   name: Entity['name'];
 
@@ -17,6 +15,9 @@ export class Route {
 
   @Field(() => Float)
   distanceInKm: Entity['distanceInKm'];
+
+  @Field(() => [String])
+  images: Entity['images'];
 
   @Field(() => String)
   activityId: Entity['activityId'];

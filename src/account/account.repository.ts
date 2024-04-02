@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Prisma, Account } from '@prisma/client';
 import { PrismaService } from '@src/db/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -18,15 +18,6 @@ export class AccountRepository {
     data: Prisma.AccountUncheckedCreateInput;
   }): Promise<Account> {
     const { data } = params;
-    const account = await this.prisma.account.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
-
-    if (account) {
-      throw new ConflictException('Email address is already taken.');
-    }
 
     const passwordHash = await bcrypt.hash(data.password, 10);
 

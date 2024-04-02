@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { AccountService } from '@src/account/account.services';
+import { AccountService } from '@src/account/account.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid password');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     return this.accountService.exclude(user, ['password']);
