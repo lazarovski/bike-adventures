@@ -36,6 +36,12 @@ describe('Test AuthServivce', () => {
 
     // then
     expect(jwtService.sign).toHaveBeenCalled();
+    expect(jwtService.sign).toHaveBeenCalledWith({
+      userId: mockUser.id,
+      email: mockUser.email,
+      firstName: mockUser.firstName,
+      lastName: mockUser.lastName,
+    });
     expect(result).toEqual(mockUserInfo);
   });
 
@@ -52,6 +58,9 @@ describe('Test AuthServivce', () => {
 
     //then
     expect(accountService.creteAccount).toHaveBeenCalled();
+    expect(accountService.creteAccount).toHaveBeenCalledWith(
+      mockUserCredentials,
+    );
     expect(result).toEqual(restResult);
   });
 });

@@ -65,6 +65,7 @@ describe('Test AuthController', () => {
 
     // then
     expect(authService.register).toHaveBeenCalled();
+    expect(authService.register).toHaveBeenCalledWith(mockUserCredentials);
     expect(result).toEqual(mockUser);
   });
 

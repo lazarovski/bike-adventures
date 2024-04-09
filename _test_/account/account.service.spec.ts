@@ -21,7 +21,7 @@ describe('Test AccountService', () => {
     accountRepository = app.get<AccountRepository>(AccountRepository);
   });
 
-  it('getAccount: should return account entity', async () => {
+  it('getAccount: should return account', async () => {
     // given
     jest
       .spyOn(accountRepository, 'getAccount')
@@ -32,6 +32,9 @@ describe('Test AccountService', () => {
 
     // then
     expect(accountRepository.getAccount).toHaveBeenCalled();
+    expect(accountRepository.getAccount).toHaveBeenCalledWith({
+      where: { email: mockUser.email },
+    });
     expect(result).toEqual(mockAccount);
   });
 
@@ -46,6 +49,9 @@ describe('Test AccountService', () => {
 
     // then
     expect(accountRepository.creteAccount).toHaveBeenCalled();
+    expect(accountRepository.creteAccount).toHaveBeenCalledWith({
+      data: mockUserCredentials,
+    });
     expect(result).toEqual(mockAccount);
   });
 

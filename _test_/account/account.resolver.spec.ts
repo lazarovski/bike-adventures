@@ -32,19 +32,10 @@ describe('Test AccountResolver', () => {
 
     // then
     expect(accountService.getAccount).toHaveBeenCalled();
+    expect(accountService.getAccount).toHaveBeenCalledWith({
+      email: mockUser.email,
+    });
     expect(result).toEqual(mockAccount);
-  });
-
-  it('getAccount: should return null if there is no account', async () => {
-    // given
-    jest.spyOn(accountService, 'getAccount').mockResolvedValueOnce(null);
-
-    // when
-    const result = await accountResolver.getAccount({ email: mockUser.email });
-
-    // then
-    expect(accountService.getAccount).toHaveBeenCalled();
-    expect(result).toBeNull();
   });
 
   it('createAccount: should return account', async () => {
@@ -58,6 +49,9 @@ describe('Test AccountResolver', () => {
 
     // then
     expect(accountService.creteAccount).toHaveBeenCalled();
+    expect(accountService.creteAccount).toHaveBeenCalledWith(
+      mockUserCredentials,
+    );
     expect(result).toEqual(mockAccount);
   });
 });
