@@ -38,7 +38,7 @@ describe('Test AccountService', () => {
     expect(result).toEqual(mockAccount);
   });
 
-  it('createAccount: should return account', async () => {
+  it('createAccount: should return created account', async () => {
     // given
     jest
       .spyOn(accountRepository, 'creteAccount')

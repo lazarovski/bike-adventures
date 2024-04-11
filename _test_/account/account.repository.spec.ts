@@ -78,7 +78,7 @@ describe('Test AccountRepository', () => {
     expect(result).toBeNull();
   });
 
-  it('createAccount: should return account', async () => {
+  it('createAccount: should return created account', async () => {
     // given
     mockCreateAccount.mockReturnValueOnce(mockAccount);
 
