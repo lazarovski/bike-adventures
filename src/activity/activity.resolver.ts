@@ -6,7 +6,7 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { UseGuards, InternalServerErrorException } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Activity } from './activity.entitiy';
 import { ActivityService } from './activity.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
@@ -26,11 +26,7 @@ export class ActivityResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => Activity, { name: 'getActivity', nullable: true })
   async getActivity(@Args('id', { type: () => String }) id: string) {
-    try {
-      return await this.activityService.getActivity(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.activityService.getActivity(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -42,11 +38,8 @@ export class ActivityResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Activity, { name: 'createActivity' })
   async createActivity(@Args('input') data: CreateActivityDto) {
-    data.startDate = new Date(data.startDate).toString();
-    return await this.activityService.createActivity(
-      '29be234a-92c0-4ee6-bc2a-e15d0d0d5c18',
-      data,
-    );
+    data.startDate = new Date(data.startDate);
+    return await this.activityService.createActivity(data);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -63,8 +56,6 @@ export class ActivityResolver {
 
   @ResolveField(() => Account)
   async account(@Parent() activity: Activity) {
-    return this.accountService.getAccount({
-      email: activity?.account?.email ?? '',
-    });
+    return this.accountService.getAccountById(activity.accountId);
   }
 }

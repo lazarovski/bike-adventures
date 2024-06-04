@@ -15,6 +15,14 @@ export class AccountService {
     return Object.fromEntries(entries) as Omit<Account, Key>;
   }
 
+  async getAccountById(id: string): Promise<Account | null> {
+    const account = await this.accountRepository.getAccount({
+      where: { id },
+    });
+
+    return account;
+  }
+
   async getAccount(args: GetAccountArgs): Promise<Account | null> {
     const account = await this.accountRepository.getAccount({
       where: { ...args },

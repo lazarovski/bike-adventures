@@ -19,15 +19,9 @@ export class ActivityService {
     });
   }
 
-  async createActivity(
-    accountId: string,
-    data: CreateActivityDto,
-  ): Promise<Activity> {
+  async createActivity(data: CreateActivityDto): Promise<Activity> {
     return this.activityRepository.createActivity({
-      data: {
-        ...data,
-        accountId,
-      },
+      data,
     });
   }
 

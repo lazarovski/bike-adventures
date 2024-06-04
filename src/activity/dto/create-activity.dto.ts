@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, MaxLength, IsDateString } from 'class-validator';
+import { IsString, MaxLength, IsDate } from 'class-validator';
 
 const maxLengthMessage = 'is too long. Max length is $constraint1 characters.';
 
@@ -15,7 +15,11 @@ export class CreateActivityDto {
   @MaxLength(1024, { message: `Description ${maxLengthMessage}` })
   description: string;
 
+  @Field(() => Date)
+  @IsDate()
+  startDate: Date;
+
   @Field(() => String)
-  @IsDateString()
-  startDate: string;
+  @IsString()
+  accountId: string;
 }

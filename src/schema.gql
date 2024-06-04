@@ -110,13 +110,15 @@ input UpdateLocationDto {
 input CreateActivityDto {
   name: String!
   description: String!
-  startDate: String!
+  startDate: DateTime!
+  accountId: String!
 }
 
 input UpdateActivityDto {
   name: String!
   description: String!
-  startDate: String!
+  startDate: DateTime!
+  accountId: String!
   id: ID!
 }
 
